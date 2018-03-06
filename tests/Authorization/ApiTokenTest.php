@@ -13,24 +13,18 @@ use PHPUnit\Framework\TestCase;
 class ApiTokenTest extends TestCase
 {
     /**
-     * @dataProvider provideApiTokens
-     *
-     * @param ApiToken $token
-     * @param array $headers
+     * Test both default and custom api key.
      */
-    public function testApiToken(ApiToken $token, array $headers)
+    public function testApiToken()
     {
-        static::assertSame($headers, $token->getHeaders());
-    }
+        static::assertSame(
+            ['X-API-Key' => 'H123b%'],
+            (new ApiToken('H123b%'))->getHeaders()
+        );
 
-    /**
-     * @return array
-     */
-    public function provideApiTokens(): array
-    {
-        return [
-            [new ApiToken('H123b%'), ['X-API-Key' => 'H123b%']],
-            [new ApiToken('H123b%', 'X-API-Key-Example'), ['X-API-Key-Example' => 'H123b%']],
-        ];
+        static::assertSame(
+            ['X-API-Key-Example' => 'H123b%'],
+            (new ApiToken('H123b%', 'X-API-Key-Example'))->getHeaders()
+        );
     }
 }
