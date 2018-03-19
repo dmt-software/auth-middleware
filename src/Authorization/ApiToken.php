@@ -3,6 +3,7 @@
 namespace DMT\Auth\Authorization;
 
 use DMT\Auth\AuthorizationInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Class ApiToken
@@ -34,10 +35,13 @@ class ApiToken implements AuthorizationInterface
     }
 
     /**
-     * @inheritdoc
+     * Get a request with the headers associated with the authorization.
+     *
+     * @param RequestInterface $request
+     * @return RequestInterface
      */
-    public function getHeaders(): array
+    public function handle(RequestInterface $request): RequestInterface
     {
-        return [$this->key => $this->token];
+        return $request->withHeader($this->key, $this->token);
     }
 }

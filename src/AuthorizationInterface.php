@@ -2,6 +2,8 @@
 
 namespace DMT\Auth;
 
+use Psr\Http\Message\RequestInterface;
+
 /**
  * Interface AuthorizationInterface
  *
@@ -10,9 +12,10 @@ namespace DMT\Auth;
 interface AuthorizationInterface
 {
     /**
-     * Get the http headers associated with the authorization.
+     * Get a request with the headers associated with the authorization.
      *
-     * @return array
+     * @param RequestInterface $request
+     * @return RequestInterface
      */
-    public function getHeaders(): array;
+    public function handle(RequestInterface $request): RequestInterface;
 }

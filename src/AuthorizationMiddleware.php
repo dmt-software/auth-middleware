@@ -35,10 +35,6 @@ class AuthorizationMiddleware
      */
     public function __invoke(RequestInterface $request)
     {
-        foreach ($this->authorization->getHeaders() as $name => $value) {
-            $request = $request->withHeader($name, $value);
-        }
-
-        return $request;
+        return $this->authorization->handle($request);
     }
 }
