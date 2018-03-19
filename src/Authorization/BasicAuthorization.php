@@ -3,6 +3,8 @@
 namespace DMT\Auth\Authorization;
 
 use DMT\Auth\AuthorizationInterface;
+use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Class BasicAuthorization
@@ -34,10 +36,17 @@ class BasicAuthorization implements AuthorizationInterface
     }
 
     /**
-     * @inheritdoc
+     * Get the http headers associated with the authorization.
+     *
+     * @param RequestInterface $request
+     * @return RequestInterface
      */
-    public function getHeaders(): array
+    public function handle(RequestInterface $request): RequestInterface
     {
-        return ['Authorization' => sprintf('Basic %s', base64_encode(sprintf('%s:%s', $this->user, $this->password)))];
+        return
+            $request->withHeader(
+                'Authorization',
+                sprintf('Basic %s', base64_encode(sprintf('%s:%s', $this->user, $this->password)))
+            );
     }
 }

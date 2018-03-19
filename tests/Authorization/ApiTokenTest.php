@@ -3,6 +3,7 @@
 namespace DMT\Test\Auth\Authorization;
 
 use DMT\Auth\Authorization\ApiToken;
+use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,13 +19,17 @@ class ApiTokenTest extends TestCase
     public function testApiToken()
     {
         static::assertSame(
-            ['X-API-Key' => 'H123b%'],
-            (new ApiToken('H123b%'))->getHeaders()
+            'H123b%',
+            (new ApiToken('H123b%'))
+                ->handle(new Request('GET', '/'))
+                ->getHeaderLine('X-API-Key')
         );
 
         static::assertSame(
-            ['X-API-Key-Example' => 'H123b%'],
-            (new ApiToken('H123b%', 'X-API-Key-Example'))->getHeaders()
+            'H123b%',
+            (new ApiToken('H123b%', 'X-API-Key-Example'))
+                ->handle(new Request('GET', '/'))
+                ->getHeaderLine('X-API-Key-Example')
         );
     }
 }

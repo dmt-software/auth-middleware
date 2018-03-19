@@ -3,6 +3,7 @@
 namespace DMT\Test\Auth\Authorization;
 
 use DMT\Auth\Authorization\BasicAuthorization;
+use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,8 +19,10 @@ class BasicAuthorizationTest extends TestCase
     public function testBasicAuthorization()
     {
         static::assertSame(
-            ['Authorization' => 'Basic X191c2VyX186X19wYXNzd29yZF9f'],
-            (new BasicAuthorization('__user__', '__password__'))->getHeaders()
+            'Basic X191c2VyX186X19wYXNzd29yZF9f',
+            (new BasicAuthorization('__user__', '__password__'))
+                ->handle(new Request('GET', '/'))
+                ->getHeaderLine('Authorization')
         );
     }
 }

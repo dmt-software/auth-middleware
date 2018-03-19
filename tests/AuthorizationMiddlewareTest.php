@@ -25,8 +25,8 @@ class AuthorizationMiddlewareTest extends TestCase
         /** @var AuthorizationInterface|MockObject $auth */
         $auth = static::getMockForAbstractClass(AuthorizationInterface::class);
         $auth->expects(static::once())
-            ->method('getHeaders')
-            ->willReturn($headers);
+            ->method('handle')
+            ->willReturn((new Request('GET', 'http://localhost', $headers)));
 
         /** @var Request $request */
         $request = call_user_func(new AuthorizationMiddleware($auth), new Request('GET', 'http://localhost'));
