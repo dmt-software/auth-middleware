@@ -1,3 +1,9 @@
+# Auth-middleware
+
+[![Build Status](https://travis-ci.org/dmt-software/auth-middleware.svg?branch=master)](https://travis-ci.org/dmt-software/auth-middleware)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dmt-software/auth-middleware/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/dmt-software/auth-middleware/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/dmt-software/auth-middleware/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/dmt-software/auth-middleware/?branch=master)
+
 ## Install
 `composer require dmt-software/auth-middleware`
 
