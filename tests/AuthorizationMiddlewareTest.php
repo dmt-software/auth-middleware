@@ -19,6 +19,7 @@ class AuthorizationMiddlewareTest extends TestCase
      * @dataProvider provideHeaders
      *
      * @param array $headers
+     * @throws \ReflectionException
      */
     public function testAuthorizationHeaders(array $headers)
     {

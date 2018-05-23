@@ -3,7 +3,6 @@
 namespace DMT\Auth\Authorization;
 
 use DMT\Auth\AuthorizationInterface;
-use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
 
 /**
