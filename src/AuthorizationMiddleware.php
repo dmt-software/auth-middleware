@@ -32,6 +32,7 @@ class AuthorizationMiddleware
      * @param RequestInterface $request
      *
      * @return RequestInterface
+     * @throws AuthorizationException
      */
     public function __invoke(RequestInterface $request)
     {

@@ -3,6 +3,7 @@
 namespace DMT\Test\Auth\Authorization;
 
 use DMT\Auth\Authorization\ApiToken;
+use DMT\Auth\AuthorizationException;
 use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\TestCase;
 
@@ -31,5 +32,28 @@ class ApiTokenTest extends TestCase
                 ->handle(new Request('GET', '/'))
                 ->getHeaderLine('X-API-Key-Example')
         );
+    }
+
+    /**
+     * @dataProvider provideIllegalApiTokens
+     *
+     * @param mixed ...$data
+     *
+     * @expectedException \DMT\Auth\AuthorizationException
+     * @expectedExceptionMessage Could not create api token, missing or empty arguments
+     */
+    public function testIllegalApiToken(...$data)
+    {
+        (new ApiToken(...$data))->handle(new Request('GET', '/'));
+    }
+
+    public function provideIllegalApiTokens(): array
+    {
+        return [
+            [''],
+            ['', 'custom-key'],
+            ['H123b%', ''],
+            ['', false],
+        ];
     }
 }

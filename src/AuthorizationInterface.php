@@ -16,6 +16,7 @@ interface AuthorizationInterface
      *
      * @param RequestInterface $request
      * @return RequestInterface
+     * @throws AuthorizationException SHOULD be thrown when the authorization can not be established.
      */
     public function handle(RequestInterface $request): RequestInterface;
 }

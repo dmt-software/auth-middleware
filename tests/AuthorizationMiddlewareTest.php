@@ -2,6 +2,7 @@
 
 namespace DMT\Test\Auth;
 
+use DMT\Auth\AuthorizationException;
 use DMT\Auth\AuthorizationInterface;
 use DMT\Auth\AuthorizationMiddleware;
 use GuzzleHttp\Psr7\Request;
@@ -19,6 +20,7 @@ class AuthorizationMiddlewareTest extends TestCase
      * @dataProvider provideHeaders
      *
      * @param array $headers
+     *
      * @throws \ReflectionException
      */
     public function testAuthorizationHeaders(array $headers)
@@ -44,5 +46,22 @@ class AuthorizationMiddlewareTest extends TestCase
             [['X-API-Key' => '13af8732cc7daae8027bc682d']],
             [['X-Auth-Type' => 'hash', 'Hash-id' => '13af8732cc7daae8027bc682d']],
         ];
+    }
+
+    /**
+     * @expectedException \DMT\Auth\AuthorizationException
+     * @expectedExceptionMessage Authorization failed
+     *
+     * @throws \ReflectionException
+     */
+    public function testAuthorizationMiddlewareThrowsException()
+    {
+        /** @var AuthorizationInterface|MockObject $auth */
+        $auth = static::getMockForAbstractClass(AuthorizationInterface::class);
+        $auth->expects(static::once())
+            ->method('handle')
+            ->willThrowException(new AuthorizationException('Authorization failed'));
+
+        call_user_func(new AuthorizationMiddleware($auth), new Request('GET', 'http://localhost'));
     }
 }
