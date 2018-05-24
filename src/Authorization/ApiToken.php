@@ -2,6 +2,7 @@
 
 namespace DMT\Auth\Authorization;
 
+use DMT\Auth\AuthorizationException;
 use DMT\Auth\AuthorizationInterface;
 use Psr\Http\Message\RequestInterface;
 
@@ -13,9 +14,14 @@ use Psr\Http\Message\RequestInterface;
 class ApiToken implements AuthorizationInterface
 {
     /**
+     * @static string
+     */
+    const DEFAULT_API_KEY = 'X-API-Key';
+
+    /**
      * @var string
      */
-    protected $key = 'X-API-Key';
+    protected $key = self::DEFAULT_API_KEY;
 
     /**
      * @var string
@@ -28,7 +34,7 @@ class ApiToken implements AuthorizationInterface
      * @param string $key
      * @param string $token
      */
-    public function __construct(string $token, string $key = 'X-API-Key')
+    public function __construct(string $token, string $key = self::DEFAULT_API_KEY)
     {
         $this->token = $token;
         $this->key = $key;
@@ -42,6 +48,9 @@ class ApiToken implements AuthorizationInterface
      */
     public function handle(RequestInterface $request): RequestInterface
     {
+        if ($this->token === '' || $this->key === '') {
+            throw new AuthorizationException('Could not create api token, missing or empty arguments');
+        }
         return $request->withHeader($this->key, $this->token);
     }
 }
